@@ -6,6 +6,7 @@ import {BrowserRouter,Routes,Route} from 'react-router-dom'
 import Password from './Components/User/Password';
 import SetPassword from './Components/User/setPassword';
 import VerifyOtp from './Components/Login/VerifyOtp';
+import Roles from './Components/RoleMaster/Roles';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
        <Route path='/changepass' element={<Password/>}/>
           <Route path='/setPassword' element={<SetPassword />} />
           <Route path='/otp' element={<VerifyOtp/>}/>
+          <Route path='/Roles' element={<Roles/>}/>
         </Routes> 
        </BrowserRouter>
        <Footer/>

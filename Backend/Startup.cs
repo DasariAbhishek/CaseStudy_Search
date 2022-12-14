@@ -1,3 +1,4 @@
+using backend.Repositories;
 using Backend.Data;
 using Backend.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -39,6 +40,7 @@ namespace Backend
 
             services.Configure<SmtpSettings>(Configuration.GetSection("SmtpSettings"));
             services.AddSingleton<IEmailSender, EmailSenderService>();
+            services.AddTransient<IRole, RoleDataService>();
 
             // JWT AUTHENTICATION SERVICE
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -56,7 +58,10 @@ namespace Backend
                         };
                     });
 
-            services.AddControllers();
+            services.AddControllers()
+                    .AddNewtonsoftJson(options =>
+                         options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                    );
 
             // CONFIGURING SWAGGER FOR JWT BEARER AUTHENTICATION
             services.AddSwaggerGen(options =>

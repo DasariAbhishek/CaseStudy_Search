@@ -39,7 +39,7 @@ namespace Backend.Controllers
                 if (user != null)
                 {
                     var Token = Generate(user);
-                    var role = new { token = Token, Role = user.Role , UserId = user.UserId};
+                    var role = new { token = Token, Role = user.RoleId , UserId = user.UserId};
                     return Ok(role);
                 }
                 return NotFound("User Not found");
@@ -89,7 +89,7 @@ namespace Backend.Controllers
             var claims = new[]
             {
                   new Claim(ClaimTypes.SerialNumber,Convert.ToString(user.UserId)),
-                  new Claim(ClaimTypes.Role,user.Role.ToString()),
+                  new Claim(ClaimTypes.Role,user.RoleId.ToString()),
                   new Claim(ClaimTypes.Email,user.CorpMail)
             };
 

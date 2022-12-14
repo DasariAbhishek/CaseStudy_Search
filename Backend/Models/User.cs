@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System;
-
+using backend.Models;
+using System.Collections.Generic;
 
 namespace Backend.Models
 {
@@ -51,8 +52,8 @@ namespace Backend.Models
         public string Location { get; set; }
 
         [Required]
-        [Column(TypeName = "nvarchar(24)")]
-        public string Role { get; set; }
+        [ForeignKey("Role")]
+        public int RoleId { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
@@ -62,5 +63,7 @@ namespace Backend.Models
         public int OTP { get; set; }
 
         public bool IsVerified { get; set; }
+
+        public virtual Role Roles { get; set; }
     }
 }

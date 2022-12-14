@@ -1,4 +1,5 @@
-﻿using Backend.Models;
+﻿using backend.Models;
+using Backend.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Data
@@ -12,6 +13,7 @@ namespace Backend.Data
         }
 
         public DbSet<User> User { get; set; }
+        public DbSet<Role> Role { get; set; }
 
 
     }

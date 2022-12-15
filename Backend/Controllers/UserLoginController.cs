@@ -104,7 +104,7 @@ namespace Backend.Controllers
         ///<summary>Authenticate method</summary> 
         private User Authenticate(UserLogin userLogin)
         {
-            var Currentuser = _context.User.FirstOrDefault(o => o.CorpMail == userLogin.CorpMail && o.Password == userLogin.Password);
+            var Currentuser = _context.User.FirstOrDefault(o => o.CorpMail == userLogin.CorpMail && o.Password == userLogin.Password && o.RoleId==userLogin.RoleId);
 
             if (Currentuser != null)
             {

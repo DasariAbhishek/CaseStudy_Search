@@ -9,6 +9,7 @@ function Verifyuser() {
   const[SelectedRole, setSelectedRole] =useState("");
   const [Roles, setRoles] = useState([]);
   const navigate = useNavigate();
+  const[Error, setError] = useState("");
   const [state, setState] = useState({
     PersonalMail: "",
     CorpMail: "",
@@ -24,6 +25,7 @@ function Verifyuser() {
       ...prevState,
       [id]: value,
     }));
+    setError("");
   };
 
   const handleRoleSelect = (e) =>{
@@ -41,11 +43,12 @@ function Verifyuser() {
   function sendotp(id) {
     axios.post(Config.api + `VerifyUser?id=${id}`)
       .then(res => { alert("Email sent successfully!"); window.location.reload();})
-    .catch(err => alert("Oops! Something went wrong"))
+    .catch(err => alert("Oops! Something went wrong email wala"))
   }
 
   const handleSubmitClick = (e) => {
     e.preventDefault();
+    if((state.CorpMail.trim().length !== 0) && (state.PersonalMail.trim().length !== 0) && (SelectedRole.trim().length !== 0) ){
     const payload = {
       PersonalMail: state.PersonalMail,
       CorpMail: state.CorpMail, 
@@ -53,11 +56,22 @@ function Verifyuser() {
 
     };
 
-    axios.get(Config.api + `NewUser?Mail1=${payload.PersonalMail}&Mail2=${payload.CorpMail}`)
+    axios.get(Config.api + `NewUser?Mail1=${payload.PersonalMail}&Mail2=${payload.CorpMail}&roleId=${payload.RoleId}`)
         .then(res => { 
+          console.log(res.data.isVerified)
+           if(res.data.isVerified === false){
            getVerifiedId(res.data.userId)
-           sendotp(res.data.userId)})
+           sendotp(res.data.userId)
+          }
+          else{
+            setError("You're already verified, please login!")
+          }
+        })
       .catch(err => alert("Oops! Something went wrong."))
+    }
+    else{
+      setError("All fields are required!")
+    }
 }
 
   return (
@@ -66,12 +80,12 @@ function Verifyuser() {
         <div className='login-body'>
         <h3 className='login-head'>
         <img src={cglogo} className="cg-logo mb-4" alt="Cg-Logo"/>iTransform Learning</h3>
-
-        <div class="input-group mb-3">
-          <label class="input-group-text" for="inputGroupSelect01"><i class="fa fa-user" aria-hidden="true"></i></label>
-          <select class="form-select" id="inputGroupSelect01" onChange = {handleRoleSelect}>
+        <p className="pass-error">{Error}</p>
+        <div className="input-group mb-3">
+          <label className="input-group-text"><i className="fa fa-user" aria-hidden="true"></i></label>
+          <select className="form-select" id="inputGroupSelect01" onChange = {handleRoleSelect}>
             
-            <option selected>Select Role...</option>
+            <option defaultValue={"Select Role..."}>Select Role...</option>
             {Roles.map(r=>(
             <option id="RoleId"  key={r.roleId} value={r.roleId}>{r.roleName}</option>))}
           

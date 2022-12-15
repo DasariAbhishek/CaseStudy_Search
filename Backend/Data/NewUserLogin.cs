@@ -16,7 +16,8 @@ namespace Backend.Data
         [DataType("varchar(30)")]
         [Required(ErrorMessage = "Personal Email cannot be empty")]
         public string PersonalMail { get; set; }
-
+        [Required]
+        public int RoleId { get; set; }
         public int OTP { get; set; }
     }
 }

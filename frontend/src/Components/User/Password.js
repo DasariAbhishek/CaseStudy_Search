@@ -46,7 +46,7 @@ function Password() {
         DOJ : "",
         Grade : "",
         Location : "",
-        Role : "",
+        RoleId : "",
         Password : "",
         OTP : 0,
         IsVerified : true
@@ -68,7 +68,7 @@ function Password() {
              DOJ : res.doj,
              Grade : res.grade,
              Location : res.location,
-             Role : res.role,
+             RoleId : res.roleId,
              Password : res.password,
              OTP : res.otp,
              IsVerified : res.isVerified
@@ -83,9 +83,13 @@ function Password() {
           ...prevState,
           [id]: value,
         }));
+        setError("");
     };
 
     const updatePassword = (e) => {
+        e.preventDefault();
+        if((state.currentPassword.trim().length !== 0) && (state.newPassword.trim().length !== 0) && (state.confirmPassword.trim().length !== 0) )
+        {
         if(state.currentPassword == user.Password)
         {
             if(state.newPassword == state.confirmPassword)
@@ -102,7 +106,7 @@ function Password() {
                  DOJ : user.DOJ,
                  Grade : user.Grade,
                  Location : user.Location,
-                 Role : user.Role,
+                 RoleId : user.RoleId,
                  Password : state.newPassword,
                  OTP : user.OTP,
                  IsVerified : user.IsVerified
@@ -134,6 +138,10 @@ function Password() {
             e.preventDefault();
             setError("Old Password does not match!")
         }
+    }
+    else{
+        setError("All fields are required!")
+    }
     }
   return (
     <>

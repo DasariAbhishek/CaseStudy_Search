@@ -18,7 +18,7 @@ function VerifyOtp() {
     DOJ : "",
     Grade : "",
     Location : "",
-    Role : "",
+    RoleId : "",
     Password : "",
     OTP : 0,
     IsVerified : false
@@ -43,7 +43,7 @@ const [inputOTP, setInputOTP] = useState(0);
        DOJ : res.data.doj,
        Grade : res.data.grade,
        Location : res.data.location,
-       Role : res.data.role,
+       RoleId : res.data.roleId,
        Password : res.data.password,
        OTP : res.data.otp,
        IsVerified : res.data.isVerified
@@ -73,7 +73,7 @@ const [inputOTP, setInputOTP] = useState(0);
         DOJ : user.DOJ,
         Grade : user.Grade,
         Location : user.Location,
-        Role : user.Role,
+        RoleId : user.RoleId,
         Password : user.Password,
         OTP : 0,
         IsVerified : true

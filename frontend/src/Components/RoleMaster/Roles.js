@@ -1,7 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import Config from '../Settings/Config';
-import {useNavigate} from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import '../RoleMaster/Roles.css'
@@ -14,16 +13,19 @@ function Roles() {
     const [Id, setId] = useState();
     const [showUpdate, setShowUpdate] = useState(false);
     const [UpdateId, setUpdateId] = useState();
-    const [UpdateName, setUpdateName] = useState();
+    const [UpdateName, setUpdateName] = useState("");
     const [ShowAdd, setShowAdd] =useState(false);
-    const [AddName, setAddName] =useState();
+    const [AddName, setAddName] =useState("");
+    const [error, setError] = useState("");
 
     const handleChange = (e) => {
         setUpdateName(e.target.value);
+        setError("");
       };
     
     const handleAddChange = (e) => {
       setAddName(e.target.value);
+      setError("");
     };
 
     const handleClose = () => setShow(false);
@@ -60,6 +62,7 @@ function Roles() {
     }
 
     function updateRole(){
+      if(UpdateName.trim().length !== 0) {
         let updatedRole = {
             RoleId: UpdateId,
             RoleName: UpdateName
@@ -68,27 +71,34 @@ function Roles() {
              .then(res=> {console.log(res);
                 window.location.reload();})
              .catch(err => console.log(err))
+             }
+             else{
+              setError("Role can't be empty")
+             }
     }
 
     function AddRole(){
+      if(AddName.trim().length !== 0) {
       let AddRole = {
-          
           RoleName: AddName
       }
       axios.post(Config.api + `Roles`, AddRole)
            .then(res=> {console.log(res);
               window.location.reload();})
            .catch(err => console.log(err))
-  }
+           }
+           else{
+            setError("Role can't be empty!")
+           }
+          }
 
   return (
     <>
     <div className="container mt-5 mb-5">
     <div className="d-flex justify-content-center">
       <h1 className='role-label-heading mb-5'>Roles
-      {/* <a className='add-role' href="/Department/Add"> */}
       <a href="#" onClick={() => {handleAddShow()}}>
-      <i className="fa fa-plus-circle ms-3"  ></i></a>
+      <i className="fa fa-plus-circle ms-3 add-role"  ></i></a>
       </h1>
     </div>
         <div className="row role-row">
@@ -146,6 +156,7 @@ function Roles() {
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
+                    <p className='pass-error'>{error}</p>
                      <div className="mb-3">
                         <label className="form-label">Role</label>
                         <input type="text" className="form-control" id="RoleName" onChange={handleChange} value={UpdateName} placeholder="Role"/>
@@ -165,6 +176,7 @@ function Roles() {
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
+                      <p className='pass-error'>{error}</p>
                      <div className="mb-3">
                         <label className="form-label">Role</label>
                         <input type="text" className="form-control" id="RoleName" onChange={handleAddChange}  placeholder="Role"/>

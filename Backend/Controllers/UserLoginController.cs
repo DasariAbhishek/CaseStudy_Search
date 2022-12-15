@@ -53,19 +53,20 @@ namespace Backend.Controllers
 
         #region Login Method API for New Users
         [HttpGet("/api/NewUser")]
-        public async Task<ActionResult<User>> FirstTimeUserLogin(string Mail1, string Mail2)
+        public async Task<ActionResult<User>> FirstTimeUserLogin(string Mail1, string Mail2, int roleId)
         {
             try
             {
                 NewUserLogin user = new NewUserLogin()
                 {
                     PersonalMail = Mail1,
-                    CorpMail = Mail2
+                    CorpMail = Mail2,
+                    RoleId = roleId
                 };
                 var NewUser = NewAuthenticate(user);
                 if (NewUser != null)
                 {
-                    return NewUser;
+                        return NewUser;  
                 }
                 else
                 {
@@ -118,7 +119,7 @@ namespace Backend.Controllers
         ///<summary>Authenticate method</summary> 
         private User NewAuthenticate(NewUserLogin userLogin)
         {
-            var Currentuser = _context.User.FirstOrDefault(o => o.CorpMail == userLogin.CorpMail && o.PersonalMail == userLogin.PersonalMail);
+            var Currentuser = _context.User.FirstOrDefault(o => o.CorpMail == userLogin.CorpMail && o.PersonalMail == userLogin.PersonalMail && o.RoleId == userLogin.RoleId);
 
             if (Currentuser != null)
             {

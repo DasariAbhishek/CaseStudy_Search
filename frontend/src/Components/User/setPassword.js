@@ -40,7 +40,7 @@ function SetPassword() {
             DOJ : "",
             Grade : "",
             Location : "",
-            Role : "",
+            RoleId : "",
             Password : "",
             OTP : 0,
             IsVerified : true
@@ -65,7 +65,7 @@ function SetPassword() {
              DOJ : res.doj,
              Grade : res.grade,
              Location : res.location,
-             Role : res.role,
+             RoleId : res.roleId,
              Password : res.password,
              OTP : res.otp,
              IsVerified : res.isVerified
@@ -80,9 +80,13 @@ function SetPassword() {
           ...prevState,
           [id]: value,
         }));
+        setError("")
       };
 
     const updatePassword = (e) => {
+        e.preventDefault();
+        if((state.newPassword.trim().length !== 0) && (state.confirmPassword.trim().length !== 0) )
+        {
         if(state.newPassword == state.confirmPassword)
         {
             let userWithPassword = {
@@ -97,7 +101,7 @@ function SetPassword() {
              DOJ : user.DOJ,
              Grade : user.Grade,
              Location : user.Location,
-             Role : user.Role,
+             RoleId : user.RoleId,
              Password : state.newPassword,
              OTP : user.OTP,
              IsVerified : user.IsVerified
@@ -115,6 +119,10 @@ function SetPassword() {
         e.preventDefault();
         setError("Passwords do not match!")
     }
+}
+else{
+    setError("All fields are required!");
+}
     }
   return (
     <div className="card pass-card mx-auto">

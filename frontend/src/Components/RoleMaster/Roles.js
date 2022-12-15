@@ -14,11 +14,17 @@ function Roles() {
     const [showUpdate, setShowUpdate] = useState(false);
     const [UpdateId, setUpdateId] = useState();
     const [UpdateName, setUpdateName] = useState();
+    const [ShowAdd, setShowAdd] =useState(false);
+    const [AddName, setAddName] =useState();
 
     const handleChange = (e) => {
         setUpdateName(e.target.value);
       };
     
+    const handleAddChange = (e) => {
+      setAddName(e.target.value);
+    };
+
     const handleClose = () => setShow(false);
     const handleShow = (id) => {
         setShow(true);
@@ -32,6 +38,12 @@ function Roles() {
         setUpdateName(name);
     }
     
+    const handleAddClose = () => setShowAdd(false);
+    const handleAddShow = () => {
+        setShowAdd(true);   
+       
+    }
+
     useEffect(()=> {
         axios.get(Config.api + 'Roles')
             .then(response=>response.data)
@@ -56,13 +68,26 @@ function Roles() {
                 window.location.reload();})
              .catch(err => console.log(err))
     }
+
+    function AddRole(){
+      let AddRole = {
+          
+          RoleName: AddName
+      }
+      axios.post(Config.api + `Roles`, AddRole)
+           .then(res=> {console.log(res);
+              window.location.reload();})
+           .catch(err => console.log(err))
+  }
+
   return (
     <>
     <div className="container mt-5 mb-5">
     <div className="d-flex justify-content-center">
       <h1 className='role-label-heading mb-5'>Roles
-      <a className='add-role' href="/Department/Add">
-      <i className="fa fa-plus-circle ms-3"></i></a>
+      {/* <a className='add-role' href="/Department/Add"> */}
+      <a href="#" onClick={() => {handleAddShow()}}>
+      <i className="fa fa-plus-circle ms-3"  ></i></a>
       </h1>
     </div>
         <div className="row role-row">
@@ -120,13 +145,32 @@ function Roles() {
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                     <div class="mb-3">
-                        <label class="form-label">Role</label>
-                        <input type="text" class="form-control" id="RoleName" onChange={handleChange} value={UpdateName} placeholder="Role"/>
+                     <div className="mb-3">
+                        <label className="form-label">Role</label>
+                        <input type="text" className="form-control" id="RoleName" onChange={handleChange} value={UpdateName} placeholder="Role"/>
                     </div>
                     <center>
                     <Button className="login-btn" onClick={updateRole}>
                         Update
+                    </Button></center>
+                    </Modal.Body>
+            </Modal>
+
+            {/* ADD ROLE MODAL */}
+            <Modal show={ShowAdd} onHide={handleAddClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>
+                        <i className="fa fa-edit fa-1x centered me-2 role-icon" aria-hidden="true"></i> Add Role
+                        </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                     <div className="mb-3">
+                        <label className="form-label">Role</label>
+                        <input type="text" className="form-control" id="RoleName" onChange={handleAddChange}  placeholder="Role"/>
+                    </div>
+                    <center>
+                    <Button className="login-btn" onClick={AddRole}>
+                        Add
                     </Button></center>
                     </Modal.Body>
             </Modal>

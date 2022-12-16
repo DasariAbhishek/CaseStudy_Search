@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using Backend.Data;
 using backend.Models;
 using backend.Repositories;
+using Microsoft.AspNetCore.Authorization;
 
 namespace backend.Controllers
 {
+
     [Route("api/[controller]")]
     [ApiController]
     public class RolesController : ControllerBase
@@ -50,6 +52,7 @@ namespace backend.Controllers
         // PUT: api/Roles/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        
         [HttpPut("{id}")]
         public async Task<IActionResult> PutRole(int id, Role role)
         {

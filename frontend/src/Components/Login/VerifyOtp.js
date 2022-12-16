@@ -27,6 +27,7 @@ const [inputOTP, setInputOTP] = useState(0);
 
   const location = useLocation();
   const userid = location.state.Id;
+  const [error, setError] = useState("");
 
   useEffect(()=>{
     axios.get(Config.api + `Users/${userid}`)
@@ -60,37 +61,54 @@ const [inputOTP, setInputOTP] = useState(0);
 
   const handleSubmitClick = (e) => {
     e.preventDefault();
-    if(inputOTP == user.OTP){
-      let verifiedUser = {
-        UserId : user.UserId,   
-        FirstName : user.FirstName,
-        LastName : user.LastName,
-        PersonalMail : user.PersonalMail,
-        CorpMail : user.CorpMail,
-        Gender : user.Gender,
-        MobileNumber : user.MobileNumber,
-        DOB : user.DOB,
-        DOJ : user.DOJ,
-        Grade : user.Grade,
-        Location : user.Location,
-        RoleId : user.RoleId,
-        Password : user.Password,
-        OTP : 0,
-        IsVerified : true
-       }
-      axios.put(Config.api + `Users/${userid}`, verifiedUser)
-      .then(res=> {alert(" You are successfully verified!");
-      getVerifiedId(user.UserId);
-        window.location.href = '/setPassword';
-      })
-      .catch(err=> console.log("Error : " + err));
-    }else {
-      alert("OTP is incorrect!")
-    }
+
+    if(inputOTP.toString().trim().length !==0){
+
+      if(inputOTP.toString().trim().length == 6){
+
+        if(inputOTP == user.OTP){
+          let verifiedUser = {
+            UserId : user.UserId,   
+            FirstName : user.FirstName,
+            LastName : user.LastName,
+            PersonalMail : user.PersonalMail,
+            CorpMail : user.CorpMail,
+            Gender : user.Gender,
+            MobileNumber : user.MobileNumber,
+            DOB : user.DOB,
+            DOJ : user.DOJ,
+            Grade : user.Grade,
+            Location : user.Location,
+            RoleId : user.RoleId,
+            Password : user.Password,
+            OTP : 0,
+            IsVerified : true
+          }
+          axios.put(Config.api + `Users/${userid}`, verifiedUser)
+          .then(res=> {alert(" You are successfully verified!");
+          getVerifiedId(user.UserId);
+            window.location.href = '/setPassword';
+          })
+          .catch(err=> console.log("Error : " + err));
+        }
+        else {
+          setError("OTP is incorrect!")
+        }
+
+      }
+      else{
+        setError("OTP should be six digit")
+      }
+  }
+  else{
+    setError("OTP cannot be empty")
+  }
+
   }
 
   const handleChange = (e) => {
     setInputOTP(e.target.value);
+    setError("");
   }
 
   return (
@@ -102,6 +120,7 @@ const [inputOTP, setInputOTP] = useState(0);
           <div class="alert alert-warning" role="alert" >
             We have sent a mail to {user.CorpMail}!!
         </div>
+        <p className='pass-error'>{error}</p>
         <div class="form-floating">
           <input type="number" className="form-control" id="OTP" name="OTP" placeholder="OTP" onChange={handleChange}/>
           <label >OTP</label>

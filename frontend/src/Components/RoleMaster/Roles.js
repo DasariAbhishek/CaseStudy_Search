@@ -4,7 +4,7 @@ import Config from '../Settings/Config';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import '../RoleMaster/Roles.css'
-
+import Auth401 from "../../images/computer.png"
 
 function Roles() {
   
@@ -93,7 +93,10 @@ function Roles() {
           }
 
   return (
+    
     <>
+    <>
+    {Config.isUserLoggedin ? 
     <div className="container mt-5 mb-5">
     <div className="d-flex justify-content-center">
       <h1 className='role-label-heading mb-5'>Roles
@@ -187,7 +190,12 @@ function Roles() {
                     </Button></center>
                     </Modal.Body>
             </Modal>
-          </div>
+          </div>: <> 
+    <center className='mt-5 mb-5 p-5'>
+        <img src={Auth401} alt="401 - Unauthorised to view page"/>
+        <h3 className='mt-5 mb-5 p-5'>Please log in to access this page!</h3>
+    </center>
+    </>} </>
         </>
   )
 }

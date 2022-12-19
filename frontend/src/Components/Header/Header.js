@@ -13,6 +13,7 @@ function Header() {
   return (
     <>
     {Config.isUserLoggedin ? 
+    <div className='header'>
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Eighth navbar example">
     <div className="container">
       <a className="navbar-brand" href="#">iEval</a>
@@ -42,6 +43,7 @@ function Header() {
       </div>
     </div>
   </nav>
+  </div>
  : <></> } 
   </>
     

@@ -10,9 +10,15 @@ function Dashboard() {
     <div>
       {Config.isUserLoggedin 
       ?<>
+      {Config.Rolename=="Super Admin" || "SuperAdmin" ? <SuperAdmin/>:<></>}
 
-      <Admin/>
-      <SuperAdmin/>
+      
+      {Config.Rolename=="Admin" ? <Admin/>:<></>}
+
+      {Config.Rolename=="Candidate" ? <></>:<></>}
+
+      
+
       </>
       :
       <>

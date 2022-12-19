@@ -5,8 +5,9 @@ using System.Net;
 using System.Threading.Tasks;
 using System;
 using MailKit.Net.Smtp;
+using Backend.Data;
 
-namespace Backend.Data
+namespace backend.Repositories
 {
     public class EmailSenderService : IEmailSender
     {

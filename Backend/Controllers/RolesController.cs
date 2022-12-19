@@ -30,84 +30,142 @@ namespace backend.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Role>>> GetRole()
         {
-           // return await _context.Role.ToListAsync();
+           
             var Users = await _role.GetAllRoles();
             return Users;
         }
+
+       
 
         // GET: api/Roles/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Role>> GetRole(int id)
         {
-            var role = await _context.Role.FindAsync(id);
-
-            if (role == null)
+            try
             {
-                return NotFound();
-            }
+                var role = await _role.GetRole(id);
 
-            return role;
+                if (role == null)
+                {
+                    return NotFound();
+                }
+
+                return role;
+            }
+            catch(Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "Error retrieving data from the database");
+            }
         }
 
         // PUT: api/Roles/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        
+
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult> PutRole(int id, Role role)
+        //{
+        //    if (id != role.RoleId)
+        //    {
+        //        return BadRequest();
+        //    }
+
+        //    _context.Entry(role).State = EntityState.Modified;
+
+        //    try
+        //    {
+        //        await _context.SaveChangesAsync();
+        //    }
+        //    catch (DbUpdateConcurrencyException)
+        //    {
+        //        if (!RoleExists(id))
+        //        {
+        //            return NotFound();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
+
+        //    return NoContent();
+        //}
+
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutRole(int id, Role role)
+        public async Task<ActionResult<Role>> PutRole(int id, Role role)
         {
-            if (id != role.RoleId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(role).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!RoleExists(id))
+                if (id != role.RoleId)
+                    return BadRequest("Role ID mismatch");
+
+                var roleToUpdate = await _role.GetRole(id);
+
+                if (roleToUpdate == null)
                 {
-                    return NotFound();
+                    return NotFound("Role not found");
                 }
                 else
                 {
-                    throw;
+                    return await _role.UpdateRole(role);
                 }
+                   
+                
             }
-
-            return NoContent();
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "Error updating data");
+            }
         }
 
         // POST: api/Roles
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        
         [HttpPost]
         public async Task<ActionResult<Role>> PostRole(Role role)
         {
-            _context.Role.Add(role);
-            await _context.SaveChangesAsync();
+            try
+            {
+                if (role == null)
+                    return BadRequest();
 
-            return CreatedAtAction("GetRole", new { id = role.RoleId }, role);
+                var newrole = await _role.AddRole(role);
+
+                return CreatedAtAction(nameof(GetRole),
+                    new { id = newrole.RoleId }, newrole);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "Error creating new Role record");
+            }
         }
+
+
 
         // DELETE: api/Roles/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Role>> DeleteRole(int id)
         {
-            var role = await _context.Role.FindAsync(id);
-            if (role == null)
+            try
             {
-                return NotFound();
+                var role = await _role.GetRole(id);
+
+                if (role == null)
+                {
+                    return NotFound("Role not found");
+                }
+
+                return await _role.DeleteRole(id);
             }
-
-            _context.Role.Remove(role);
-            await _context.SaveChangesAsync();
-
-            return role;
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "Error deleting data");
+            }
         }
 
         private bool RoleExists(int id)

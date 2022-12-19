@@ -93,7 +93,7 @@ namespace Backend
                 {
                     Version = "v1",
                     Title = "iTransform Evaluation App API",
-                    Description = "Made by Arfin"
+                    Description = ""
                 });
             });
         }

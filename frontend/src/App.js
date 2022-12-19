@@ -7,6 +7,7 @@ import Password from './Components/User/Password';
 import SetPassword from './Components/User/setPassword';
 import VerifyOtp from './Components/Login/VerifyOtp';
 import Roles from './Components/RoleMaster/Roles';
+import Dashboard from './Components/Dashboard/Dashboard';
 
 function App() {
   return (
@@ -14,12 +15,13 @@ function App() {
       <Header/>
       <BrowserRouter> 
     <Routes>   
-       <Route exact path='/' element={<Login/>}/> 
-       <Route path='/verify' element={<Verifyuser/>}/>
-       <Route path='/changepass' element={<Password/>}/>
+          <Route exact path='/' element={<Login/>}/> 
+          <Route path='/verify' element={<Verifyuser/>}/>
+          <Route path='/changepass' element={<Password/>}/>
           <Route path='/setPassword' element={<SetPassword />} />
           <Route path='/otp' element={<VerifyOtp/>}/>
           <Route path='/Roles' element={<Roles/>}/>
+          <Route path='/dashboard' element={<Dashboard/>}/>
         </Routes> 
        </BrowserRouter>
        <Footer/>

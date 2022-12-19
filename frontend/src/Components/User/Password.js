@@ -4,7 +4,7 @@ import hide from "../../images/hide.png"
 import "./Password.css"
 import Config from "../Settings/Config"
 import axios from 'axios';
-import Auth401 from "../../images/computer.png"
+import Unauthorized from '../Unauthorized/Unauthorized'
 
 function Password() {
     const [oldPasswordShown, setoldPasswordShown] = useState(false);
@@ -184,10 +184,7 @@ function Password() {
         </div>
     </form>
     </div>: <> 
-    <center className='mt-5 mb-5 p-5'>
-        <img src={Auth401} alt="401 - Unauthorised to view page"/>
-        <h3 className='mt-5 mb-5 p-5'>Please log in to access this page!</h3>
-    </center>
+        <Unauthorized/>
     </>} </>
   )
 }

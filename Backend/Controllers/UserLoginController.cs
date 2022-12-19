@@ -38,8 +38,9 @@ namespace Backend.Controllers
                 var user = Authenticate(userLogin);
                 if (user != null)
                 {
+                    var rolename = _context.Role.Where(role => role.RoleId == user.RoleId).Select(role => role.RoleName);
                     var Token = Generate(user);
-                    var role = new { token = Token, Role = user.RoleId , UserId = user.UserId};
+                    var role = new { token = Token, Role = user.RoleId , UserId = user.UserId, RoleName = rolename};
                     return Ok(role);
                 }
                 return NotFound("User Not found");

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import Config from '../Settings/Config'
-import Auth401 from "../../images/computer.png"
 import './SuperAdmin.css'
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Users from '../User/Users'
 import Roles from '../RoleMaster/Roles'
+import Unauthorized from '../Unauthorized/Unauthorized'
 
 
 function SuperAdmin() {
@@ -22,10 +22,9 @@ function SuperAdmin() {
     },[])
   return (
     <>
-        { Config.isUserLoggedin ?
         <div>
             <div className='sa-header'>
-                <h2 className='welcome-head'>Hey there,<br/>{superAdmin.firstName} {superAdmin.lastName}!</h2>
+                <h2 className='welcome-head'>Hey there,<br/> Super Admin {superAdmin.firstName}!</h2>
             </div>
             <div className='sa-body'>
                 <hr/>
@@ -50,14 +49,6 @@ function SuperAdmin() {
                 </Tabs>
             </div>
         </div> 
-        : 
-        <>
-            <center className='mt-5 mb-5 p-5'>
-                <img src={Auth401} alt="401 - Unauthorised to view page"/>
-                <h3 className='mt-5 mb-5 p-5'>Please log in to access this page!</h3>
-            </center>
-        </> 
-        }
     </> 
   )
 }

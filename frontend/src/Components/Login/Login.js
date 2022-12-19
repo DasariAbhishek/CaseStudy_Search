@@ -55,9 +55,11 @@ function Login() {
 
         axios.post(Config.api + "UserLogin", payload)
         .then((res) => {sessionStorage.setItem('token', res.data.token)
+        console.log(res.data)
         sessionStorage.setItem('role',res.data.role)
         sessionStorage.setItem('email',payload.CorpMail)
         sessionStorage.setItem('Id',res.data.userId)
+        sessionStorage.setItem('rolename',res.data.roleName)
               window.location.reload()
               window.location.href = "/dashboard";
             
